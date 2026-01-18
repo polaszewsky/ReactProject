@@ -33,7 +33,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        // Sprawdź czy użytkownik jest zalogowany (localStorage)
         const sessionToken = localStorage.getItem('sessionToken');
         const savedUser = localStorage.getItem('user');
 
@@ -53,11 +52,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             if (response.data.success) {
                 const { sessionToken, user } = response.data;
 
-                // Zapisz w localStorage
                 localStorage.setItem('sessionToken', sessionToken);
                 localStorage.setItem('user', JSON.stringify(user));
 
-                // Ustaw w axios headers
                 axios.defaults.headers.common['Authorization'] = `Bearer ${sessionToken}`;
 
                 setUser(user);
@@ -84,7 +81,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         } catch (error) {
             console.error('Logout error:', error);
         } finally {
-            // Wyczyść localStorage i state
             localStorage.removeItem('sessionToken');
             localStorage.removeItem('user');
             delete axios.defaults.headers.common['Authorization'];

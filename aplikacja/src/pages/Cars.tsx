@@ -11,7 +11,6 @@ function Cars() {
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [priceRange, setPriceRange] = useState('all');
 
-    // Date filters for availability
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
 
@@ -50,12 +49,10 @@ function Cars() {
     const filterCars = () => {
         let filtered = [...cars];
 
-        // Filter by category
         if (selectedCategory !== 'all') {
             filtered = filtered.filter(car => car.category === selectedCategory);
         }
 
-        // Filter by price range
         if (priceRange !== 'all') {
             if (priceRange === 'low') {
                 filtered = filtered.filter(car => car.price_per_day < 300);

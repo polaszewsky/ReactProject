@@ -17,12 +17,12 @@ function Admin() {
     const navigate = useNavigate();
     const [cars, setCars] = useState<Car[]>([]);
     const [loading, setLoading] = useState(true);
-    const [activeTab, setActiveTab] = useState('list'); // 'list' or 'add'
+    const [activeTab, setActiveTab] = useState('list');
     const [editingCar, setEditingCar] = useState<Car | null>(null);
     const [exchangeRates, setExchangeRates] = useState<ExchangeRates | null>(null);
     const [reservations, setReservations] = useState<Reservation[]>([]);
     const [loadingReservations, setLoadingReservations] = useState(false);
-    // States for custom confirmation to avoid window.confirm issues
+
     const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
     const [cancelConfirmId, setCancelConfirmId] = useState<number | null>(null);
 
@@ -83,7 +83,6 @@ function Admin() {
 
     const handleCancelReservation = async (id: number) => {
         if (cancelConfirmId === id) {
-            // Confirmed
             try {
                 await axios.delete(`/api/reservations/${id}`);
                 setCancelConfirmId(null);
@@ -93,9 +92,8 @@ function Admin() {
                 alert(`Błąd: ${error.message}`);
             }
         } else {
-            // First click - wait for confirmation
             setCancelConfirmId(id);
-            setTimeout(() => setCancelConfirmId(null), 3000); // Reset after 3s
+            setTimeout(() => setCancelConfirmId(null), 3000);
         }
     };
 
@@ -122,16 +120,13 @@ function Admin() {
             };
 
             if (editingCar) {
-                // Update
                 await axios.put(`/api/cars/${editingCar.id}`, carData);
                 alert('Samochód zaktualizowany pomyślnie!');
             } else {
-                // Create
                 await axios.post('/api/cars', carData);
                 alert('Samochód dodany pomyślnie!');
             }
 
-            // Reset form
             setFormData({
                 brand: '',
                 model: '',
@@ -174,7 +169,6 @@ function Admin() {
 
     const handleDelete = async (id: number) => {
         if (deleteConfirmId === id) {
-            // Confirmed
             try {
                 await axios.delete(`/api/cars/${id}`);
                 setDeleteConfirmId(null);
@@ -184,9 +178,8 @@ function Admin() {
                 alert(error.response?.data?.message || 'Błąd podczas usuwania samochodu');
             }
         } else {
-            // First click - wait for confirmation
             setDeleteConfirmId(id);
-            setTimeout(() => setDeleteConfirmId(null), 3000); // Reset after 3s
+            setTimeout(() => setDeleteConfirmId(null), 3000);
         }
     };
 

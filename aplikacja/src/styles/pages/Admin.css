@@ -57,7 +57,6 @@
     box-shadow: var(--shadow-md);
 }
 
-/* Exchange Rates */
 .exchange-rates-info {
     background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
     color: var(--white);
@@ -101,7 +100,6 @@
     margin-top: 0.5rem;
 }
 
-/* Table */
 .cars-table-container {
     overflow-x: auto;
 }
@@ -253,7 +251,6 @@
     background: #fecaca;
 }
 
-/* Form */
 .admin-form-container {
     max-width: 800px;
     margin: 0 auto;
@@ -313,7 +310,6 @@
     font-size: var(--font-size-lg);
 }
 
-/* Responsive */
 @media (max-width: 1024px) {
     .cars-table {
         font-size: var(--font-size-xs);
@@ -352,7 +348,6 @@
     }
 }
 
-/* Button for confirmation state */
 .btn-confirm-delete {
     background-color: #ffc107;
     color: #000;

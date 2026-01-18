@@ -55,7 +55,6 @@
     cursor: not-allowed;
 }
 
-/* Reservation Summary */
 .reservation-summary {
     background: var(--white);
     padding: 2rem;
@@ -194,7 +193,6 @@
     color: var(--gray-500);
 }
 
-/* Alerts */
 .alert {
     display: flex;
     gap: 1rem;
@@ -231,7 +229,6 @@
     color: #991b1b;
 }
 
-/* Responsive */
 @media (max-width: 1024px) {
     .reservation-container {
         grid-template-columns: 1fr;

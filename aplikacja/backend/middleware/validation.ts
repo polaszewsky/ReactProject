@@ -1,11 +1,9 @@
-// Validation middleware for car data
 import { Request, Response, NextFunction } from 'express';
 
 export const validateCarData = (req: Request, res: Response, next: NextFunction) => {
     const { brand, model, year, category, price_per_day } = req.body;
     const errors: string[] = [];
 
-    // Required fields validation
     if (!brand || typeof brand !== 'string' || brand.trim().length < 2 || brand.trim().length > 100) {
         errors.push('Brand must be a string between 2 and 100 characters');
     }
@@ -27,7 +25,6 @@ export const validateCarData = (req: Request, res: Response, next: NextFunction)
         errors.push('Price per day must be a positive number');
     }
 
-    // Optional fields validation
     if (req.body.image_url && typeof req.body.image_url !== 'string') {
         errors.push('Image URL must be a string');
     }
@@ -47,7 +44,6 @@ export const validateCarData = (req: Request, res: Response, next: NextFunction)
         });
     }
 
-    // Sanitize data
     req.body.brand = brand.trim();
     req.body.model = model.trim();
     req.body.category = category.toLowerCase();

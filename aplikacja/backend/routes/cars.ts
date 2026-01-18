@@ -4,12 +4,10 @@ import { validateCarData, validateCarId, validateQueryParams } from '../middlewa
 
 const router = express.Router();
 
-// GET available cars based on date range
 router.get('/available', async (req: Request, res: Response) => {
     try {
         const { start_date, end_date, category } = req.query;
 
-        // Base query to get all cars
         let query = `
             SELECT DISTINCT c.* 
             FROM cars c
@@ -17,13 +15,11 @@ router.get('/available', async (req: Request, res: Response) => {
         `;
         const params: any[] = [];
 
-        // Add category filter if provided
         if (category && category !== 'all') {
             params.push((category as string).toLowerCase());
             query += ` AND c.category = $${params.length}`;
         }
 
-        // If dates are provided, exclude cars with conflicting reservations
         if (start_date && end_date) {
             query += `
                 AND c.id NOT IN (
@@ -63,7 +59,6 @@ router.get('/available', async (req: Request, res: Response) => {
     }
 });
 
-// GET all cars - z walidacją parametrów
 router.get('/', validateQueryParams, async (req: Request, res: Response) => {
     try {
         const { category, available } = req.query;
@@ -99,7 +94,6 @@ router.get('/', validateQueryParams, async (req: Request, res: Response) => {
     }
 });
 
-// GET single car by ID - z walidacją ID
 router.get('/:id', validateCarId, async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
@@ -125,7 +119,6 @@ router.get('/:id', validateCarId, async (req: Request, res: Response) => {
     }
 });
 
-// POST create new car - z pełną walidacją
 router.post('/', validateCarData, async (req: Request, res: Response) => {
     try {
         const { brand, model, year, category, price_per_day, image_url, features, seats, transmission, fuel_type } = req.body;
@@ -145,7 +138,7 @@ router.post('/', validateCarData, async (req: Request, res: Response) => {
     } catch (error: any) {
         console.error('Error creating car:', error);
 
-        if (error.code === '23505') { // Unique violation
+        if (error.code === '23505') {
             return res.status(409).json({
                 error: 'Conflict',
                 message: 'Car with these details already exists'
@@ -159,13 +152,11 @@ router.post('/', validateCarData, async (req: Request, res: Response) => {
     }
 });
 
-// PUT update car - z walidacją
 router.put('/:id', validateCarId, validateCarData, async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
         const { brand, model, year, category, price_per_day, image_url, available, features, seats, transmission, fuel_type } = req.body;
 
-        // Sprawdź czy samochód istnieje
         const checkResult = await pool.query('SELECT * FROM cars WHERE id = $1', [id]);
         if (checkResult.rows.length === 0) {
             return res.status(404).json({
@@ -197,7 +188,6 @@ router.put('/:id', validateCarId, validateCarData, async (req: Request, res: Res
     }
 });
 
-// DELETE car - z sprawdzeniem rezerwacji
 router.delete('/:id', validateCarId, async (req: Request, res: Response) => {
     const client = await pool.connect();
 
@@ -206,7 +196,6 @@ router.delete('/:id', validateCarId, async (req: Request, res: Response) => {
 
         const { id } = req.params;
 
-        // Sprawdź czy samochód istnieje
         const carResult = await client.query('SELECT * FROM cars WHERE id = $1', [id]);
         if (carResult.rows.length === 0) {
             await client.query('ROLLBACK');
@@ -216,7 +205,6 @@ router.delete('/:id', validateCarId, async (req: Request, res: Response) => {
             });
         }
 
-        // Sprawdź czy są aktywne rezerwacje
         const reservationsResult = await client.query(
             `SELECT COUNT(*) as count FROM reservations 
        WHERE car_id = $1 AND status != 'cancelled' AND status != 'completed'`,
@@ -232,7 +220,6 @@ router.delete('/:id', validateCarId, async (req: Request, res: Response) => {
             });
         }
 
-        // Usuń samochód
         const deleteResult = await client.query('DELETE FROM cars WHERE id = $1 RETURNING *', [id]);
 
         await client.query('COMMIT');

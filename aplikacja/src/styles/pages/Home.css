@@ -2,7 +2,6 @@
     min-height: 100vh;
 }
 
-/* Hero Section */
 .hero {
     position: relative;
     min-height: 600px;
@@ -96,7 +95,6 @@
     letter-spacing: 1px;
 }
 
-/* Sections */
 .how-it-works,
 .featured-cars,
 .benefits {
@@ -118,7 +116,6 @@
     margin-right: auto;
 }
 
-/* Steps */
 .steps {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -175,7 +172,6 @@
     line-height: 1.6;
 }
 
-/* Benefits */
 .benefits {
     background: var(--gray-50);
 }
@@ -213,7 +209,6 @@
     margin: 0;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .hero {
         min-height: 500px;

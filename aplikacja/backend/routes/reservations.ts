@@ -3,7 +3,6 @@ import pool from '../config/database';
 
 const router = express.Router();
 
-// GET all reservations
 router.get('/', async (req: Request, res: Response) => {
     try {
         const { status, user_email } = req.query;
@@ -36,7 +35,6 @@ router.get('/', async (req: Request, res: Response) => {
     }
 });
 
-// GET single reservation by ID
 router.get('/:id', async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
@@ -59,7 +57,6 @@ router.get('/:id', async (req: Request, res: Response) => {
     }
 });
 
-// POST create new reservation
 router.post('/', async (req: Request, res: Response) => {
     const client = await pool.connect();
 
@@ -68,7 +65,6 @@ router.post('/', async (req: Request, res: Response) => {
 
         const { car_id, user_name, user_email, user_phone, start_date, end_date, total_price, notes } = req.body;
 
-        // Check if car is available
         const carCheck = await client.query('SELECT available FROM cars WHERE id = $1', [car_id]);
 
         if (carCheck.rows.length === 0) {
@@ -81,7 +77,6 @@ router.post('/', async (req: Request, res: Response) => {
             return res.status(400).json({ error: 'Car is not available' });
         }
 
-        // Check for conflicting reservations
         const conflictCheck = await client.query(
             `SELECT id FROM reservations 
        WHERE car_id = $1 
@@ -99,7 +94,6 @@ router.post('/', async (req: Request, res: Response) => {
             return res.status(400).json({ error: 'Car is already reserved for these dates' });
         }
 
-        // Create reservation
         const result = await client.query(
             `INSERT INTO reservations (car_id, user_name, user_email, user_phone, start_date, end_date, total_price, notes, status)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'confirmed')
@@ -118,7 +112,6 @@ router.post('/', async (req: Request, res: Response) => {
     }
 });
 
-// PUT update reservation
 router.put('/:id', async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
@@ -143,7 +136,6 @@ router.put('/:id', async (req: Request, res: Response) => {
     }
 });
 
-// DELETE (cancel) reservation
 router.delete('/:id', async (req: Request, res: Response) => {
     try {
         const { id } = req.params;

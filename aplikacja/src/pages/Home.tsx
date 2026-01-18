@@ -26,7 +26,6 @@ function Home() {
 
     return (
         <div className="home">
-            {/* Hero Section */}
             <section className="hero">
                 <div className="hero-background"></div>
                 <div className="container hero-content">
@@ -63,7 +62,6 @@ function Home() {
                 </div>
             </section>
 
-            {/* How It Works Section */}
             <section className="how-it-works">
                 <div className="container">
                     <h2 className="section-title text-center">Jak to działa?</h2>
@@ -102,7 +100,6 @@ function Home() {
                 </div>
             </section>
 
-            {/* Featured Cars Section */}
             <section className="featured-cars">
                 <div className="container">
                     <h2 className="section-title text-center">Popularne Samochody</h2>
@@ -128,7 +125,6 @@ function Home() {
                 </div>
             </section>
 
-            {/* Benefits Section */}
             <section className="benefits">
                 <div className="container">
                     <h2 className="section-title text-center">Dlaczego My?</h2>

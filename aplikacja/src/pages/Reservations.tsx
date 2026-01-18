@@ -36,7 +36,6 @@ function Reservations() {
     const fetchCars = async () => {
         try {
             const response = await axios.get('/api/cars?available=true');
-            // Backend returns { success: true, data: [...] }
             if (response.data && Array.isArray(response.data.data)) {
                 setCars(response.data.data);
             } else if (Array.isArray(response.data)) {
@@ -101,7 +100,6 @@ function Reservations() {
                 notes: ''
             });
 
-            // Scroll to success message
             window.scrollTo({ top: 0, behavior: 'smooth' });
         } catch (error: any) {
             console.error('Error creating reservation:', error);

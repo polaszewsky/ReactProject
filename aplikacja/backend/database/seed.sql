@@ -1,6 +1,3 @@
--- Sample data for Car Rental Service
-
--- Insert sample cars
 INSERT INTO cars (brand, model, year, category, price_per_day, image_url, available, features, seats, transmission, fuel_type) VALUES
 ('Toyota', 'Camry', 2023, 'sedan', 250.00, 'https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=800', true, 
  ARRAY['GPS', 'Klimatyzacja', 'Bluetooth', 'Kamera cofania'], 5, 'Automatyczna', 'Hybryda'),
@@ -32,13 +29,11 @@ INSERT INTO cars (brand, model, year, category, price_per_day, image_url, availa
 ('Audi', 'A6 Avant', 2024, 'kombi', 480.00, 'https://images.unsplash.com/photo-1610768764270-790fbec18178?w=800', true,
  ARRAY['GPS', 'Klimatyzacja automatyczna', 'Skórzane fotele', 'Matrix LED', 'Bang & Olufsen'], 5, 'Automatyczna', 'Diesel');
 
--- Insert sample reservations
 INSERT INTO reservations (car_id, user_name, user_email, user_phone, start_date, end_date, total_price, status, notes) VALUES
 (1, 'Jan Kowalski', 'jan.kowalski@firma.pl', '+48 123 456 789', '2026-01-20', '2026-01-25', 1250.00, 'confirmed', 'Odbiór z biura głównego'),
 (3, 'Anna Nowak', 'anna.nowak@firma.pl', '+48 987 654 321', '2026-01-18', '2026-01-22', 1920.00, 'confirmed', 'Wyjazd służbowy do Warszawy'),
 (5, 'Piotr Wiśniewski', 'piotr.wisniewski@firma.pl', '+48 555 123 456', '2026-01-25', '2026-01-30', 2600.00, 'pending', 'Spotkanie z klientem'),
 (2, 'Maria Lewandowska', 'maria.lewandowska@firma.pl', '+48 666 789 012', '2026-01-15', '2026-01-17', 900.00, 'completed', 'Konferencja w Krakowie');
 
--- Verify data
 SELECT 'Cars inserted:' as info, COUNT(*) as count FROM cars;
 SELECT 'Reservations inserted:' as info, COUNT(*) as count FROM reservations;

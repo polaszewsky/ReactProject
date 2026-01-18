@@ -2,21 +2,18 @@ import express, { Request, Response } from 'express';
 import axios from 'axios';
 const router = express.Router();
 
-// ExchangeRate API - konwersja walut
 router.get('/exchange-rates', async (req: Request, res: Response) => {
     try {
         const baseCurrency = (req.query.base as string) || 'PLN';
 
-        // Wywołanie zewnętrznego API
         const response = await axios.get(`https://api.exchangerate-api.com/v4/latest/${baseCurrency}`, {
-            timeout: 5000 // 5 sekund timeout
+            timeout: 5000
         });
 
         if (!response.data || !response.data.rates) {
             throw new Error('Invalid response from exchange rate API');
         }
 
-        // Zwracamy najważniejsze waluty
         const rates = {
             base: baseCurrency,
             date: response.data.date,
@@ -53,12 +50,10 @@ router.get('/exchange-rates', async (req: Request, res: Response) => {
     }
 });
 
-// Konwersja konkretnej kwoty
 router.post('/convert', async (req: Request, res: Response) => {
     try {
         const { amount, from, to } = req.body;
 
-        // Walidacja danych wejściowych
         if (!amount || typeof amount !== 'number' || amount <= 0) {
             return res.status(400).json({
                 error: 'Validation Error',
@@ -73,7 +68,6 @@ router.post('/convert', async (req: Request, res: Response) => {
             });
         }
 
-        // Pobierz kursy walut
         const response = await axios.get(`https://api.exchangerate-api.com/v4/latest/${from}`, {
             timeout: 5000
         });

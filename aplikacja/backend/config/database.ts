@@ -10,7 +10,6 @@ const pool = new Pool({
   database: process.env.DB_NAME,
 });
 
-// Test database connection
 pool.on('connect', () => {
   console.log('✅ Connected to PostgreSQL database');
 });

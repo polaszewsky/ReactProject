@@ -105,7 +105,6 @@
     font-size: var(--font-size-sm);
 }
 
-/* Mobile Responsive */
 @media (max-width: 768px) {
     .navbar-menu {
         gap: 1rem;
